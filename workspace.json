@@ -48,7 +48,7 @@
   "name": "java",
   "commands": [
     {
-      "commandLine": "mvn -f ${current.project.path} clean install",
+      "commandLine": "mvn -f ${current.project.path} clean install dependency:tree",
       "name": "console-java-simple: build",
       "attributes": {
         "previewUrl": ""
@@ -63,35 +63,5 @@
       },
       "type": "mvn"
     },
-    {
-      "commandLine": "source /opt/bitnami/stacksmith-utils.sh && print_welcome_page && sudo HOME=/root /opt/bitnami/nami/bin/nami execute activator createProject --force $(basename /projects/java-play) play-java | grep -v undefined && cd /projects/java-play && /opt/bitnami/activator/bin/activator -Dsbt.log.noformat=true -Doffline=true -Dhttp.host=0.0.0.0 -Dhttp.port=9000 ~run",
-      "name": "java-play: 1. Create and run project",
-      "attributes": {
-        "previewUrl": "http://${server.port.9000}/"
-      },
-      "type": "custom"
-    },
-    {
-      "commandLine": "source /opt/bitnami/stacksmith-utils.sh && print_welcome_page && cd /projects/java-play && /opt/bitnami/activator/bin/activator -Doffline=true -Dhttp.host=0.0.0.0 -Dhttp.port=9000 -Dsbt.log.noformat=true ~run",
-      "name": "java-play: 2. Run",
-      "attributes": {
-        "previewUrl": "http://${server.port.9000}/"
-      },
-      "type": "custom"
-    },
-    {
-      "commandLine": "source /opt/bitnami/stacksmith-utils.sh && print_welcome_page && cd /projects/java-play && pkill -u bitnami activator && echo \"Web server stopped.\"",
-      "name": "java-play: 3. Stop",
-      "attributes": {},
-      "type": "custom"
-    },
-    {
-      "commandLine": "cd ${current.project.path} && javac -classpath ${project.java.classpath} -sourcepath ${project.java.sourcepath} -d ${project.java.output.dir} src/Main.java && java -classpath ${project.java.classpath}${project.java.output.dir} Main",
-      "name": "newJava",
-      "attributes": {
-        "previewUrl": ""
-      },
-      "type": "java"
-    }
   ]
 }
