@@ -1,0 +1,95 @@
+{
+  "projects": [
+    {
+      "problems": [],
+      "mixins": [
+        "pullrequest"
+      ],
+      "source": {
+        "location": "https://github.com/che-samples/console-java-simple.git",
+        "type": "git",
+        "parameters": {}
+      },
+      "name": "console-java-simple",
+      "type": "maven",
+      "path": "/console-java-simple",
+      "attributes": {
+        "contribute_to_branch": [
+          "master"
+        ]
+      }
+    }
+  ],
+  "defaultEnv": "java",
+  "commands": [
+    {
+      "commandLine": "mvn -f ${current.project.path} clean install",
+      "name": "console-java-simple: build",
+      "type": "mvn",
+      "attributes": {
+        "previewUrl": ""
+      }
+    },
+    {
+      "commandLine": "mvn -f ${current.project.path} clean install && java -jar ${current.project.path}/target/*.jar",
+      "name": "console-java-simple: run",
+      "type": "mvn",
+      "attributes": {
+        "previewUrl": ""
+      }
+    },
+    {
+      "commandLine": "source /opt/bitnami/stacksmith-utils.sh && print_welcome_page && sudo HOME=/root /opt/bitnami/nami/bin/nami execute activator createProject --force $(basename /projects/java-play) play-java | grep -v undefined && cd /projects/java-play && /opt/bitnami/activator/bin/activator -Dsbt.log.noformat=true -Doffline=true -Dhttp.host=0.0.0.0 -Dhttp.port=9000 ~run",
+      "name": "java-play: 1. Create and run project",
+      "type": "custom",
+      "attributes": {
+        "previewUrl": "http://${server.port.9000}/"
+      }
+    },
+    {
+      "commandLine": "source /opt/bitnami/stacksmith-utils.sh && print_welcome_page && cd /projects/java-play && /opt/bitnami/activator/bin/activator -Doffline=true -Dhttp.host=0.0.0.0 -Dhttp.port=9000 -Dsbt.log.noformat=true ~run",
+      "name": "java-play: 2. Run",
+      "type": "custom",
+      "attributes": {
+        "previewUrl": "http://${server.port.9000}/"
+      }
+    },
+    {
+      "commandLine": "source /opt/bitnami/stacksmith-utils.sh && print_welcome_page && cd /projects/java-play && pkill -u bitnami activator && echo \"Web server stopped.\"",
+      "name": "java-play: 3. Stop",
+      "type": "custom",
+      "attributes": {}
+    },
+    {
+      "commandLine": "cd ${current.project.path} && javac -classpath ${project.java.classpath} -sourcepath ${project.java.sourcepath} -d ${project.java.output.dir} src/Main.java && java -classpath ${project.java.classpath}${project.java.output.dir} Main",
+      "name": "newJava",
+      "type": "java",
+      "attributes": {
+        "previewUrl": ""
+      }
+    }
+  ],
+  "name": "java",
+  "environments": {
+    "java": {
+      "recipe": {
+        "contentType": "text/x-dockerfile",
+        "location": "https://codenvy.io/api/recipe/recipega4hxep75ipg04yo/script",
+        "type": "dockerfile"
+      },
+      "machines": {
+        "ws-machine": {
+          "agents": [
+            "org.eclipse.che.terminal",
+            "org.eclipse.che.ws-agent",
+            "org.eclipse.che.ssh"
+          ],
+          "servers": {},
+          "attributes": {
+            "memoryLimitBytes": "2097152000"
+          }
+        }
+      }
+    }
+  }
+}
